@@ -1,6 +1,6 @@
-@model ToDoList.Models.Item
+@model SweetSavory.Models.Treat
 
-<h2>Create a new item</h2>
+<h2>Create a new Treat</h2>
 <hr />
 
 @using (Html.BeginForm())
@@ -8,8 +8,8 @@
     @Html.LabelFor(model => model.Description)
     @Html.EditorFor(model => model.Description)
 
-    @Html.Label("Select Category")
-    @Html.DropDownList("CategoryId")
+    @Html.Label("Select Flavors")
+    @Html.DropDownList("FlavorsId")
 
     <input type="submit" value="Create" class="btn btn-default" />
 }

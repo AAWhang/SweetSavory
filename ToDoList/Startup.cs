@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ToDoList.Models;
+using SweetSavory.Models;
 
-namespace ToDoList
+namespace SweetSavory
 {
   public class Startup
   {
@@ -26,11 +26,11 @@ namespace ToDoList
       services.AddMvc();
 
       services.AddEntityFrameworkMySql()
-        .AddDbContext<ToDoListContext>(options => options
+        .AddDbContext<SweetSavoryContext>(options => options
         .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
 
       services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ToDoListContext>()
+                .AddEntityFrameworkStores<SweetSavoryContext>()
                 .AddDefaultTokenProviders();
 
       services.Configure<IdentityOptions>(options =>

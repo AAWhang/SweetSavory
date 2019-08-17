@@ -1,4 +1,4 @@
-namespace ToDoList.ViewModels
+namespace SweetSavory.ViewModels
 {
     public class LoginViewModel
     {

@@ -1,23 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using SweetSavory.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace ToDoList.Controllers
+namespace SweetSavory.Controllers
 {
-  public class CategoriesController : Controller
+  public class FlavorsController : Controller
   {
-    private readonly ToDoListContext _db;
+    private readonly SweetSavoryContext _db;
 
-    public CategoriesController(ToDoListContext db)
+    public FlavorsController(SweetSavoryContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      List<Category> model = _db.Categories.ToList();
+      List<Flavors> model = _db.Flavors.ToList();
       return View(model);
     }
 
@@ -27,47 +27,47 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Category category)
+    public ActionResult Create(Flavors Flavors)
     {
-      _db.Categories.Add(category);
+      _db.Flavors.Add(Flavors);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
     {
-      var thisCategory = _db.Categories
-          .Include(category => category.Items)
-          .ThenInclude(join => join.Item)
-          .FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      var thisFlavors = _db.Flavors
+          .Include(Flavors => Flavors.Treats)
+          .ThenInclude(join => join.Treat)
+          .FirstOrDefault(Flavors => Flavors.FlavorsId == id);
+      return View(thisFlavors);
     }
 
     public ActionResult Edit(int id)
     {
-      var thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      var thisFlavors = _db.Flavors.FirstOrDefault(Flavors => Flavors.FlavorsId == id);
+      return View(thisFlavors);
     }
 
     [HttpPost]
-    public ActionResult Edit(Category category)
+    public ActionResult Edit(Flavors Flavors)
     {
-      _db.Entry(category).State = EntityState.Modified;
+      _db.Entry(Flavors).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      var thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      var thisFlavors = _db.Flavors.FirstOrDefault(Flavors => Flavors.FlavorsId == id);
+      return View(thisFlavors);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      var thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      _db.Categories.Remove(thisCategory);
+      var thisFlavors = _db.Flavors.FirstOrDefault(Flavors => Flavors.FlavorsId == id);
+      _db.Flavors.Remove(thisFlavors);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

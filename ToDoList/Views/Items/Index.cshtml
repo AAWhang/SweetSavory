@@ -1,15 +1,15 @@
 @using System.Security.Claims
 
-@model IEnumerable<ToDoList.Models.Item>
+@model IEnumerable<SweetSavory.Models.Treat>
 
 <h2>Here is your list of tasks, @User.Identity.Name</h2>
 <hr />
 @if (Model.Any())
 {
     <ul>
-        @foreach (var listItem in Model)
+        @foreach (var listTreat in Model)
         {
-            <li>@Html.DisplayFor(modelItem => listItem.Description)</li>
+            <li>@Html.DisplayFor(modelTreat => listTreat.Description)</li>
         }
     </ul>
 }

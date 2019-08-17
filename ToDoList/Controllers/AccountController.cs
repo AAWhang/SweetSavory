@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using ToDoList.Models;
+using SweetSavory.Models;
 using System.Threading.Tasks;
-using ToDoList.ViewModels;
+using SweetSavory.ViewModels;
 
-namespace ToDoList.Controllers
+namespace SweetSavory.Controllers
 {
   public class AccountController : Controller
   {
-    private readonly ToDoListContext _db;
+    private readonly SweetSavoryContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ToDoListContext db)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, SweetSavoryContext db)
     {
       _userManager = userManager;
       _signInManager = signInManager;

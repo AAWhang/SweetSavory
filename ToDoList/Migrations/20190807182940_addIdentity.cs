@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ToDoList.Migrations
+namespace SweetSavory.Migrations
 {
     public partial class addIdentity : Migration
     {

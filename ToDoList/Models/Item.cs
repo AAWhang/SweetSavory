@@ -2,20 +2,20 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace ToDoList.Models
+namespace SweetSavory.Models
 {
-    [Table("Items")]
-    public class Item
+    [Table("Treats")]
+    public class Treat
     {
-      public Item()
+      public Treat()
         {
-            this.Categories = new HashSet<CategoryItem>();
+            this.Flavors = new HashSet<FlavorsTreat>();
         }
 
         [Key]
-        public int ItemId { get; set; }
+        public int TreatId { get; set; }
         public string Description { get; set; }
-        public ICollection<CategoryItem> Categories { get;}
+        public ICollection<FlavorsTreat> Flavors { get;}
         // new code
         public virtual ApplicationUser User { get; set; }
     }

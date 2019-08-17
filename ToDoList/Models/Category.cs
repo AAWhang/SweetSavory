@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 
-namespace ToDoList.Models
+namespace SweetSavory.Models
 {
-  public class Category
+  public class Flavors
     {
-        public Category()
+        public Flavors()
         {
-            this.Items = new HashSet<CategoryItem>();
+            this.Treats = new HashSet<FlavorsTreat>();
         }
 
-        public int CategoryId { get; set; }
+        public int FlavorsId { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<CategoryItem> Items { get; set; }
+        public virtual ICollection<FlavorsTreat> Treats { get; set; }
     }
 }

@@ -3,24 +3,24 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace ToDoList.Models
+namespace SweetSavory.Models
 {
-  public class ToDoListContextFactory : IDesignTimeDbContextFactory<ToDoListContext>
+  public class SweetSavoryContextFactory : IDesignTimeDbContextFactory<SweetSavoryContext>
   {
 
-    ToDoListContext IDesignTimeDbContextFactory<ToDoListContext>.CreateDbContext(string[] args)
+    SweetSavoryContext IDesignTimeDbContextFactory<SweetSavoryContext>.CreateDbContext(string[] args)
     {
       IConfigurationRoot configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
           .Build();
 
-      var builder = new DbContextOptionsBuilder<ToDoListContext>();
+      var builder = new DbContextOptionsBuilder<SweetSavoryContext>();
       var connectionString = configuration.GetConnectionString("DefaultConnection");
 
       builder.UseMySql(connectionString);
 
-      return new ToDoListContext(builder.Options);
+      return new SweetSavoryContext(builder.Options);
     }
   }
 }

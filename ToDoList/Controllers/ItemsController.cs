@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using SweetSavory.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +9,14 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-namespace ToDoList.Controllers
+namespace SweetSavory.Controllers
 {
   [Authorize]
-  public class ItemsController : Controller
+  public class TreatsController : Controller
   {
-    private readonly ToDoListContext _db;
+    private readonly SweetSavoryContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
-    public ItemsController(UserManager<ApplicationUser> userManager, ToDoListContext database)
+    public TreatsController(UserManager<ApplicationUser> userManager, SweetSavoryContext database)
     {
       _userManager = userManager;
       _db = database;
@@ -26,67 +26,67 @@ namespace ToDoList.Controllers
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var currentUser = await _userManager.FindByIdAsync(userId);
-        return View(_db.Items.Where(x => x.User.Id == currentUser.Id));
+        return View(_db.Treats.Where(x => x.User.Id == currentUser.Id));
     }
 
     public ActionResult Create()
     {
-        ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
+        ViewBag.FlavorsId = new SelectList(_db.Flavors, "FlavorsId", "Name");
         return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Item item)
+    public async Task<ActionResult> Create(Treat Treat)
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var currentUser = await _userManager.FindByIdAsync(userId);
-        item.User = currentUser;
-        _db.Items.Add(item);
+        Treat.User = currentUser;
+        _db.Treats.Add(Treat);
         _db.SaveChanges();
         return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
     {
-      var thisItem = _db.Items
-          .Include(item => item.Categories)
-          .ThenInclude(join => join.Category)
-          .FirstOrDefault(item => item.ItemId == id);
-      return View(thisItem);
+      var thisTreat = _db.Treats
+          .Include(Treat => Treat.Flavors)
+          .ThenInclude(join => join.Flavors)
+          .FirstOrDefault(Treat => Treat.TreatId == id);
+      return View(thisTreat);
     }
 
     public ActionResult Edit(int id)
     {
-      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
-      ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
-      return View(thisItem);
+      var thisTreat = _db.Treats.FirstOrDefault(Treats => Treats.TreatId == id);
+      ViewBag.FlavorsId = new SelectList(_db.Flavors, "FlavorsId", "Name");
+      return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult Edit(Item item, int CategoryId)
+    public ActionResult Edit(Treat Treat, int FlavorsId)
     {
-      if (CategoryId != 0)
+      if (FlavorsId != 0)
       {
-        _db.CategoryItem.Add(new CategoryItem() { CategoryId = CategoryId, ItemId = item.ItemId });
+        _db.FlavorsTreat.Add(new FlavorsTreat() { FlavorsId = FlavorsId, TreatId = Treat.TreatId });
       }
-      _db.Entry(item).State = EntityState.Modified;
+      _db.Entry(Treat).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddCategory(int id)
+    public ActionResult AddFlavors(int id)
     {
-      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
-      ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
-      return View(thisItem);
+      var thisTreat = _db.Treats.FirstOrDefault(Treats => Treats.TreatId == id);
+      ViewBag.FlavorsId = new SelectList(_db.Flavors, "FlavorsId", "Name");
+      return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult AddCategory(Item item, int CategoryId)
+    public ActionResult AddFlavors(Treat Treat, int FlavorsId)
     {
-      if (CategoryId != 0)
+      if (FlavorsId != 0)
       {
-        _db.CategoryItem.Add(new CategoryItem() { CategoryId = CategoryId, ItemId = item.ItemId });
+        _db.FlavorsTreat.Add(new FlavorsTreat() { FlavorsId = FlavorsId, TreatId = Treat.TreatId });
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -94,24 +94,24 @@ namespace ToDoList.Controllers
 
     public ActionResult Delete(int id)
     {
-      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
-      return View(thisItem);
+      var thisTreat = _db.Treats.FirstOrDefault(Treats => Treats.TreatId == id);
+      return View(thisTreat);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
-      _db.Items.Remove(thisItem);
+      var thisTreat = _db.Treats.FirstOrDefault(Treats => Treats.TreatId == id);
+      _db.Treats.Remove(thisTreat);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public ActionResult DeleteCategory(int joinId)
+    public ActionResult DeleteFlavors(int joinId)
     {
-      var joinEntry = _db.CategoryItem.FirstOrDefault(entry => entry.CategoryItemId == joinId);
-      _db.CategoryItem.Remove(joinEntry);
+      var joinEntry = _db.FlavorsTreat.FirstOrDefault(entry => entry.FlavorsTreatId == joinId);
+      _db.FlavorsTreat.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoList.Models;
+using SweetSavory.Models;
 
-namespace ToDoList.Migrations
+namespace SweetSavory.Migrations
 {
-    [DbContext(typeof(ToDoListContext))]
+    [DbContext(typeof(SweetSavoryContext))]
     [Migration("20190807182940_addIdentity")]
     partial class addIdentity
     {
@@ -126,7 +126,7 @@ namespace ToDoList.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SweetSavory.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -176,46 +176,46 @@ namespace ToDoList.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.Category", b =>
+            modelBuilder.Entity("SweetSavory.Models.Flavors", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("FlavorsId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("FlavorsId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Flavors");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.CategoryItem", b =>
+            modelBuilder.Entity("SweetSavory.Models.FlavorsTreat", b =>
                 {
-                    b.Property<int>("CategoryItemId")
+                    b.Property<int>("FlavorsTreatId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CategoryId");
+                    b.Property<int>("FlavorsId");
 
-                    b.Property<int>("ItemId");
+                    b.Property<int>("TreatId");
 
-                    b.HasKey("CategoryItemId");
+                    b.HasKey("FlavorsTreatId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("FlavorsId");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("TreatId");
 
-                    b.ToTable("CategoryItem");
+                    b.ToTable("FlavorsTreat");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.Item", b =>
+            modelBuilder.Entity("SweetSavory.Models.Treat", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<int>("TreatId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
-                    b.HasKey("ItemId");
+                    b.HasKey("TreatId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Treats");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -228,7 +228,7 @@ namespace ToDoList.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ToDoList.Models.ApplicationUser")
+                    b.HasOne("SweetSavory.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -236,7 +236,7 @@ namespace ToDoList.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ToDoList.Models.ApplicationUser")
+                    b.HasOne("SweetSavory.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -249,7 +249,7 @@ namespace ToDoList.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ToDoList.Models.ApplicationUser")
+                    b.HasOne("SweetSavory.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -257,22 +257,22 @@ namespace ToDoList.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ToDoList.Models.ApplicationUser")
+                    b.HasOne("SweetSavory.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ToDoList.Models.CategoryItem", b =>
+            modelBuilder.Entity("SweetSavory.Models.FlavorsTreat", b =>
                 {
-                    b.HasOne("ToDoList.Models.Category", "Category")
-                        .WithMany("Items")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("SweetSavory.Models.Flavors", "Flavors")
+                        .WithMany("Treats")
+                        .HasForeignKey("FlavorsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ToDoList.Models.Item", "Item")
-                        .WithMany("Categories")
-                        .HasForeignKey("ItemId")
+                    b.HasOne("SweetSavory.Models.Treat", "Treat")
+                        .WithMany("Flavors")
+                        .HasForeignKey("TreatId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

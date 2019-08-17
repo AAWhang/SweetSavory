@@ -1,85 +1,85 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ToDoList.Migrations
+namespace SweetSavory.Migrations
 {
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Flavors",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(nullable: false)
+                    FlavorsId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Flavors", x => x.FlavorsId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "Treats",
                 columns: table => new
                 {
-                    ItemId = table.Column<int>(nullable: false)
+                    TreatId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.ItemId);
+                    table.PrimaryKey("PK_Treats", x => x.TreatId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryItem",
+                name: "FlavorsTreat",
                 columns: table => new
                 {
-                    CategoryItemId = table.Column<int>(nullable: false)
+                    FlavorsTreatId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ItemId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    TreatId = table.Column<int>(nullable: false),
+                    FlavorsId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryItem", x => x.CategoryItemId);
+                    table.PrimaryKey("PK_FlavorsTreat", x => x.FlavorsTreatId);
                     table.ForeignKey(
-                        name: "FK_CategoryItem_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
+                        name: "FK_FlavorsTreat_Flavors_FlavorsId",
+                        column: x => x.FlavorsId,
+                        principalTable: "Flavors",
+                        principalColumn: "FlavorsId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryItem_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "ItemId",
+                        name: "FK_FlavorsTreat_Treats_TreatId",
+                        column: x => x.TreatId,
+                        principalTable: "Treats",
+                        principalColumn: "TreatId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryItem_CategoryId",
-                table: "CategoryItem",
-                column: "CategoryId");
+                name: "IX_FlavorsTreat_FlavorsId",
+                table: "FlavorsTreat",
+                column: "FlavorsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryItem_ItemId",
-                table: "CategoryItem",
-                column: "ItemId");
+                name: "IX_FlavorsTreat_TreatId",
+                table: "FlavorsTreat",
+                column: "TreatId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CategoryItem");
+                name: "FlavorsTreat");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Flavors");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "Treats");
         }
     }
 }
