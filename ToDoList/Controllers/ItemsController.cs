@@ -4,39 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ToDoList.Controllers
 {
+  [Authorize]
   public class ItemsController : Controller
   {
     private readonly ToDoListContext _db;
-
-    public ItemsController(ToDoListContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public ItemsController(UserManager<ApplicationUser> userManager, ToDoListContext database)
     {
-      _db = db;
+      _userManager = userManager;
+      _db = database;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      return View(_db.Items.ToList());
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var currentUser = await _userManager.FindByIdAsync(userId);
+        return View(_db.Items.Where(x => x.User.Id == currentUser.Id));
     }
 
     public ActionResult Create()
     {
-      ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
-      return View();
+        ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
+        return View();
     }
 
     [HttpPost]
-    public ActionResult Create(Item item, int CategoryId)
+    public async Task<ActionResult> Create(Item item)
     {
-      _db.Items.Add(item);
-      if (CategoryId != 0)
-      {
-        _db.CategoryItem.Add(new CategoryItem() { CategoryId = CategoryId, ItemId = item.ItemId });
-      }
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var currentUser = await _userManager.FindByIdAsync(userId);
+        item.User = currentUser;
+        _db.Items.Add(item);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)

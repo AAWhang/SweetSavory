@@ -1,0 +1,17 @@
+@model ToDoList.Models.Item
+
+<h2>Create a new item</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.Description)
+    @Html.EditorFor(model => model.Description)
+
+    @Html.Label("Select Category")
+    @Html.DropDownList("CategoryId")
+
+    <input type="submit" value="Create" class="btn btn-default" />
+}
+
+@Html.ActionLink("Back to List", "Index")

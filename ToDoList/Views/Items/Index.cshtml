@@ -1,22 +1,21 @@
-@{
-  Layout = "_Layout";
+@using System.Security.Claims
+
+@model IEnumerable<ToDoList.Models.Item>
+
+<h2>Here is your list of tasks, @User.Identity.Name</h2>
+<hr />
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var listItem in Model)
+        {
+            <li>@Html.DisplayFor(modelItem => listItem.Description)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No tasks have been added yet!</p>
 }
 
-@using ToDoList.Models;
-@model List<ToDoList.Models.Item>;
-
-<h1>Items</h1>
-
-@if (@Model.Count == 0)
-{
-  <h3>No items have been added yet!</h3>
-} 
-
-@foreach (Item item in Model)
-{
-  <li>@Html.ActionLink($"{item.Description}", "Details", new { id = item.ItemId })</li>
-}
-
-<p>@Html.ActionLink("Add new item", "Create")</p>
-
-<p>@Html.ActionLink("Home", "Index", "Home")</p>
+@Html.ActionLink("Create new", "Create")
