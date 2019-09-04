@@ -1,15 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
 @using System.Security.Claims
 
 @model IEnumerable<SweetSavory.Models.Treat>
 
-<h2>Here is your list of tasks, @User.Identity.Name</h2>
+<h2>Here is your list of Treats!, @User.Identity.Name</h2>
 <hr />
 @if (Model.Any())
 {
     <ul>
         @foreach (var listTreat in Model)
         {
-            <li>@Html.DisplayFor(modelTreat => listTreat.Description)</li>
+            <li>@Html.ActionLink($"{listTreat.Description}", "Details", new { id = listTreat.TreatId })</li>
         }
     </ul>
 }

@@ -87,6 +87,8 @@ namespace SweetSavory.Controllers
       if (FlavorsId != 0)
       {
         _db.FlavorsTreat.Add(new FlavorsTreat() { FlavorsId = FlavorsId, TreatId = Treat.TreatId });
+        Treat.Flavors.Add(new FlavorsTreat() { FlavorsId = FlavorsId, TreatId = Treat.TreatId });
+
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
